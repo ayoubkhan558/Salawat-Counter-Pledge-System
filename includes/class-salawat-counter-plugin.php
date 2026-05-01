@@ -728,7 +728,7 @@ final class Salawat_Counter_Plugin
 		}
 
 		$cache_key = 'salawat_counter_stats_' . md5($start_date . '|' . $end_date);
-		$cached = get_transient($cache_key);
+		$cached = current_user_can('manage_options') ? false : get_transient($cache_key);
 
 		if (false !== $cached) {
 			return $cached;
@@ -756,7 +756,7 @@ final class Salawat_Counter_Plugin
 			'today' => $this->sum_between($today_start, $tomorrow),
 			'week' => $this->sum_between($week_start, ''),
 			'month' => $this->sum_between($month_start, $next_month),
-			'participants' => $wpdb->get_var("SELECT COUNT(*) FROM {$this->table_name}"),
+			'participants' => $wpdb->get_var("SELECT COUNT(DISTINCT CASE WHEN email != '' THEN email ELSE CAST(id AS CHAR) END) FROM {$this->table_name}"),
 		);
 
 		if ($start_date || $end_date) {
@@ -906,6 +906,10 @@ final class Salawat_Counter_Plugin
 	{
 		global $wpdb;
 
+		// Clear the most common global cache key
+		delete_transient('salawat_counter_stats_' . md5('|'));
+
+		// Also try to clear all by pattern in options table for environments without object cache
 		$wpdb->query(
 			$wpdb->prepare(
 				"DELETE FROM {$wpdb->options} WHERE option_name LIKE %s OR option_name LIKE %s",
@@ -1936,11 +1940,12 @@ final class Salawat_Counter_Plugin
 	 */
 	public function render_bricks_dynamic_tag($value = '', $tag = '', $post = null)
 	{
-		if ('' === $tag && is_string($value)) {
-			$tag = $value;
-		}
-
-		$rendered = $this->get_dynamic_tag_value($tag);
+		// In Bricks 1.9+, $tag is the base tag name (e.g. salawat_total)
+		// and $value is the full tag (e.g. {salawat_total:raw})
+		// We use the full tag to detect filters.
+		$tag_to_process = (is_string($value) && strpos($value, '{') !== false) ? $value : $tag;
+		
+		$rendered = $this->get_dynamic_tag_value($tag_to_process);
 		return null === $rendered ? $value : $rendered;
 	}
 
@@ -1986,21 +1991,39 @@ final class Salawat_Counter_Plugin
 		// Handle Bricks filters by stripping anything after a colon
 		$tag_parts = explode(':', $tag);
 		$base_tag  = $tag_parts[0];
+		$filter    = isset($tag_parts[1]) ? $tag_parts[1] : '';
 
 		$stats = $this->get_stats();
+		$value = null;
 
 		switch ($base_tag) {
 			case 'salawat_total':
-				return $this->format_number($stats['total']);
+				$value = $stats['total'];
+				break;
 			case 'salawat_today':
-				return $this->format_number($stats['today']);
+				$value = $stats['today'];
+				break;
 			case 'salawat_week':
-				return $this->format_number($stats['week']);
+				$value = $stats['week'];
+				break;
 			case 'salawat_month':
-				return $this->format_number($stats['month']);
+				$value = $stats['month'];
+				break;
 			case 'salawat_participants':
-				return $this->format_number($stats['participants']);
+				$value = $stats['participants'];
+				break;
 		}
+
+		if (null === $value) {
+			return null;
+		}
+
+		// If user requested raw value or numeric value, return unformatted
+		if (in_array($filter, array('raw', 'value', 'plain'), true)) {
+			return $value;
+		}
+
+		return $this->format_number($value);
 
 		return null;
 	}
