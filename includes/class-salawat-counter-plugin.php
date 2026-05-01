@@ -752,11 +752,11 @@ final class Salawat_Counter_Plugin
 		$next_month = $next_month->format('Y-m-d H:i:s');
 
 		$stats = array(
-			'total' => (int) $wpdb->get_var("SELECT COALESCE(SUM(salawat_amount), 0) FROM {$this->table_name}"),
+			'total' => $wpdb->get_var("SELECT COALESCE(SUM(salawat_amount), 0) FROM {$this->table_name}"),
 			'today' => $this->sum_between($today_start, $tomorrow),
 			'week' => $this->sum_between($week_start, ''),
 			'month' => $this->sum_between($month_start, $next_month),
-			'participants' => (int) $wpdb->get_var("SELECT COUNT(*) FROM {$this->table_name}"),
+			'participants' => $wpdb->get_var("SELECT COUNT(*) FROM {$this->table_name}"),
 		);
 
 		if ($start_date || $end_date) {
@@ -812,7 +812,7 @@ final class Salawat_Counter_Plugin
 		global $wpdb;
 
 		if ($end) {
-			return (int) $wpdb->get_var(
+			return $wpdb->get_var(
 				$wpdb->prepare(
 					"SELECT COALESCE(SUM(salawat_amount), 0) FROM {$this->table_name} WHERE created_at >= %s AND created_at < %s",
 					$start,
@@ -821,7 +821,7 @@ final class Salawat_Counter_Plugin
 			);
 		}
 
-		return (int) $wpdb->get_var(
+		return $wpdb->get_var(
 			$wpdb->prepare(
 				"SELECT COALESCE(SUM(salawat_amount), 0) FROM {$this->table_name} WHERE created_at >= %s",
 				$start
@@ -860,7 +860,7 @@ final class Salawat_Counter_Plugin
 			$sql = $wpdb->prepare($sql, $params);
 		}
 
-		return (int) $wpdb->get_var($sql);
+		return $wpdb->get_var($sql);
 	}
 
 	/**
@@ -894,7 +894,7 @@ final class Salawat_Counter_Plugin
 			$sql = $wpdb->prepare($sql, $params);
 		}
 
-		return (int) $wpdb->get_var($sql);
+		return $wpdb->get_var($sql);
 	}
 
 	/**
@@ -923,7 +923,7 @@ final class Salawat_Counter_Plugin
 	 */
 	private function format_number($value)
 	{
-		return number_format_i18n((int) $value);
+		return number_format_i18n($value);
 	}
 
 	/**
@@ -1263,11 +1263,11 @@ final class Salawat_Counter_Plugin
 		$stats = $this->get_stats();
 
 		return array(
-			'total' => (int) $stats['total'],
-			'today' => (int) $stats['today'],
-			'week' => (int) $stats['week'],
-			'month' => (int) $stats['month'],
-			'participants' => (int) $stats['participants'],
+			'total' => $stats['total'],
+			'today' => $stats['today'],
+			'week' => $stats['week'],
+			'month' => $stats['month'],
+			'participants' => $stats['participants'],
 			'formatted' => array(
 				'total' => $this->format_number($stats['total']),
 				'today' => $this->format_number($stats['today']),
@@ -1921,6 +1921,7 @@ final class Salawat_Counter_Plugin
 		$tags[] = array('name' => '{salawat_today}', 'label' => __('Salawat Today', 'salawat-counter'), 'group' => $group);
 		$tags[] = array('name' => '{salawat_week}', 'label' => __('Salawat This Week', 'salawat-counter'), 'group' => $group);
 		$tags[] = array('name' => '{salawat_month}', 'label' => __('Salawat This Month', 'salawat-counter'), 'group' => $group);
+		$tags[] = array('name' => '{salawat_participants}', 'label' => __('Salawat Participants', 'salawat-counter'), 'group' => $group);
 
 		return $tags;
 	}
@@ -1951,13 +1952,18 @@ final class Salawat_Counter_Plugin
 	 */
 	public function render_bricks_dynamic_content($content = '')
 	{
-		if (!is_string($content)) {
+		if (!is_string($content) || '' === $content) {
 			return $content;
 		}
 
-		foreach (array('{salawat_total}', '{salawat_today}', '{salawat_week}', '{salawat_month}') as $tag) {
-			if (false !== strpos($content, $tag)) {
-				$content = str_replace($tag, $this->get_dynamic_tag_value($tag), $content);
+		// Use regex to match tags only when they are not followed by a colon (which would indicate a filter)
+		// This prevents str_replace from corrupting tags like {salawat_total:number}
+		$tags = array('salawat_total', 'salawat_today', 'salawat_week', 'salawat_month', 'salawat_participants');
+
+		foreach ($tags as $tag_name) {
+			$pattern = '/\{' . preg_quote($tag_name, '/') . '\}/';
+			if (preg_match($pattern, $content)) {
+				$content = preg_replace($pattern, $this->get_dynamic_tag_value($tag_name), $content);
 			}
 		}
 
@@ -1976,18 +1982,24 @@ final class Salawat_Counter_Plugin
 			return null;
 		}
 
-		$tag = '{' . trim($tag, '{}') . '}';
+		$tag = trim((string) $tag, '{}');
+		// Handle Bricks filters by stripping anything after a colon
+		$tag_parts = explode(':', $tag);
+		$base_tag  = $tag_parts[0];
+
 		$stats = $this->get_stats();
 
-		switch ($tag) {
-			case '{salawat_total}':
+		switch ($base_tag) {
+			case 'salawat_total':
 				return $this->format_number($stats['total']);
-			case '{salawat_today}':
+			case 'salawat_today':
 				return $this->format_number($stats['today']);
-			case '{salawat_week}':
+			case 'salawat_week':
 				return $this->format_number($stats['week']);
-			case '{salawat_month}':
+			case 'salawat_month':
 				return $this->format_number($stats['month']);
+			case 'salawat_participants':
+				return $this->format_number($stats['participants']);
 		}
 
 		return null;
