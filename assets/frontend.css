@@ -1,0 +1,137 @@
+.salawat-latest-pledges {
+	--salawat-latest-columns: 1;
+	--salawat-latest-accent: #17965d;
+	--salawat-latest-card-bg: #fff;
+	--salawat-latest-text: #1f2430;
+	--salawat-latest-muted: #4e5561;
+	--salawat-latest-border: #e0e0e0;
+	--salawat-latest-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
+	color: var(--salawat-latest-text);
+}
+
+.salawat-latest-title {
+	margin: 0 0 28px;
+	font-size: 32px;
+	line-height: 1.15;
+	font-weight: 800;
+	letter-spacing: 0;
+}
+
+.salawat-latest-list {
+	display: grid;
+	grid-template-columns: repeat(var(--salawat-latest-columns), minmax(0, 1fr));
+	gap: 34px;
+}
+
+.salawat-latest-card {
+	background: var(--salawat-latest-card-bg);
+	border: 1px solid var(--salawat-latest-border);
+	border-radius: 18px;
+	box-shadow: var(--salawat-latest-shadow);
+	padding: 38px 46px;
+}
+
+.salawat-latest-card-header {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 20px;
+	margin: 0 0 28px;
+}
+
+.salawat-latest-name {
+	margin: 0;
+	font-size: 34px;
+	line-height: 1.1;
+	font-weight: 800;
+	letter-spacing: 0;
+}
+
+.salawat-latest-date {
+	color: var(--salawat-latest-muted);
+	font-size: 22px;
+	line-height: 1.25;
+	white-space: nowrap;
+}
+
+.salawat-latest-message {
+	border-left: 4px solid var(--salawat-latest-accent);
+	font-size: 25px;
+	font-style: italic;
+	line-height: 1.45;
+	margin: 0 0 28px;
+	padding-left: 28px;
+}
+
+.salawat-latest-footer {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 20px;
+}
+
+.salawat-latest-amount-label {
+	font-size: 26px;
+	line-height: 1.2;
+	font-weight: 800;
+}
+
+.salawat-latest-amount {
+	color: var(--salawat-latest-accent);
+	font-size: 34px;
+	line-height: 1.1;
+	font-weight: 800;
+	letter-spacing: 0;
+	white-space: nowrap;
+}
+
+.salawat-latest-empty {
+	margin: 0;
+	color: var(--salawat-latest-muted);
+}
+
+@media (max-width: 767px) {
+	.salawat-latest-list {
+		grid-template-columns: 1fr;
+		gap: 18px;
+	}
+
+	.salawat-latest-title {
+		font-size: 26px;
+		margin-bottom: 18px;
+	}
+
+	.salawat-latest-card {
+		border-radius: 12px;
+		padding: 22px;
+	}
+
+	.salawat-latest-card-header,
+	.salawat-latest-footer {
+		display: grid;
+		gap: 10px;
+	}
+
+	.salawat-latest-name {
+		font-size: 25px;
+	}
+
+	.salawat-latest-date {
+		font-size: 16px;
+	}
+
+	.salawat-latest-message {
+		font-size: 18px;
+		margin-bottom: 22px;
+		padding-left: 18px;
+	}
+
+	.salawat-latest-amount-label {
+		font-size: 18px;
+	}
+
+	.salawat-latest-amount {
+		font-size: 24px;
+		white-space: normal;
+	}
+}
