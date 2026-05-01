@@ -47,7 +47,7 @@
 .salawat-admin-card strong {
 	display: block;
 	font-size: var(--salawat-admin-fs-lg);
-	font-weight: 800;
+	font-weight: 500;
 	line-height: 1.15;
 }
 
