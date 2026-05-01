@@ -128,6 +128,19 @@ class Salawat_Latest_Pledges_Element extends \Bricks\Element {
 			'default' => 1,
 		);
 
+		$this->controls['titleSpacing'] = array(
+			'tab'   => 'style',
+			'label' => esc_html__( 'Title bottom spacing', 'salawat-counter' ),
+			'type'  => 'number',
+			'units' => true,
+			'css'   => array(
+				array(
+					'property' => 'margin-bottom',
+					'selector' => '.salawat-latest-title',
+				),
+			),
+		);
+
 		$this->controls['gap'] = array(
 			'tab'   => 'style',
 			'label' => esc_html__( 'Card gap', 'salawat-counter' ),
@@ -177,6 +190,19 @@ class Salawat_Latest_Pledges_Element extends \Bricks\Element {
 			),
 		);
 
+		$this->controls['cardRadius'] = array(
+			'tab'   => 'style',
+			'label' => esc_html__( 'Card radius', 'salawat-counter' ),
+			'type'  => 'number',
+			'units' => true,
+			'css'   => array(
+				array(
+					'property' => 'border-radius',
+					'selector' => '.salawat-latest-card',
+				),
+			),
+		);
+
 		$this->controls['cardShadow'] = array(
 			'tab'   => 'style',
 			'label' => esc_html__( 'Card shadow', 'salawat-counter' ),
@@ -189,8 +215,73 @@ class Salawat_Latest_Pledges_Element extends \Bricks\Element {
 			),
 		);
 
-		$this->controls['titleTypography'] = array(
+		$this->controls['headerSpacing'] = array(
 			'tab'   => 'style',
+			'label' => esc_html__( 'Header bottom spacing', 'salawat-counter' ),
+			'type'  => 'number',
+			'units' => true,
+			'css'   => array(
+				array(
+					'property' => 'margin-bottom',
+					'selector' => '.salawat-latest-card-header',
+				),
+			),
+		);
+
+		$this->controls['footerGap'] = array(
+			'tab'   => 'style',
+			'label' => esc_html__( 'Footer gap', 'salawat-counter' ),
+			'type'  => 'number',
+			'units' => true,
+			'css'   => array(
+				array(
+					'property' => 'gap',
+					'selector' => '.salawat-latest-footer',
+				),
+			),
+		);
+
+		$this->controls['messageSpacing'] = array(
+			'tab'   => 'style',
+			'label' => esc_html__( 'Message bottom spacing', 'salawat-counter' ),
+			'type'  => 'number',
+			'units' => true,
+			'css'   => array(
+				array(
+					'property' => 'margin-bottom',
+					'selector' => '.salawat-latest-message',
+				),
+			),
+		);
+
+		$this->controls['messagePadding'] = array(
+			'tab'   => 'style',
+			'label' => esc_html__( 'Message left padding', 'salawat-counter' ),
+			'type'  => 'number',
+			'units' => true,
+			'css'   => array(
+				array(
+					'property' => 'padding-left',
+					'selector' => '.salawat-latest-message',
+				),
+			),
+		);
+
+		$this->controls['accentWidth'] = array(
+			'tab'   => 'style',
+			'label' => esc_html__( 'Message accent width', 'salawat-counter' ),
+			'type'  => 'number',
+			'units' => true,
+			'css'   => array(
+				array(
+					'property' => 'border-left-width',
+					'selector' => '.salawat-latest-message',
+				),
+			),
+		);
+
+		$this->controls['titleTypography'] = array(
+			'tab'   => 'content',
 			'label' => esc_html__( 'Title typography', 'salawat-counter' ),
 			'type'  => 'typography',
 			'css'   => array(
@@ -202,7 +293,7 @@ class Salawat_Latest_Pledges_Element extends \Bricks\Element {
 		);
 
 		$this->controls['nameTypography'] = array(
-			'tab'   => 'style',
+			'tab'   => 'content',
 			'label' => esc_html__( 'Name typography', 'salawat-counter' ),
 			'type'  => 'typography',
 			'css'   => array(
@@ -213,8 +304,44 @@ class Salawat_Latest_Pledges_Element extends \Bricks\Element {
 			),
 		);
 
-		$this->controls['messageTypography'] = array(
+		$this->controls['nameColor'] = array(
 			'tab'   => 'style',
+			'label' => esc_html__( 'Name color', 'salawat-counter' ),
+			'type'  => 'color',
+			'css'   => array(
+				array(
+					'property' => 'color',
+					'selector' => '.salawat-latest-name',
+				),
+			),
+		);
+
+		$this->controls['dateTypography'] = array(
+			'tab'   => 'content',
+			'label' => esc_html__( 'Date typography', 'salawat-counter' ),
+			'type'  => 'typography',
+			'css'   => array(
+				array(
+					'property' => 'typography',
+					'selector' => '.salawat-latest-date',
+				),
+			),
+		);
+
+		$this->controls['dateColor'] = array(
+			'tab'   => 'style',
+			'label' => esc_html__( 'Date color', 'salawat-counter' ),
+			'type'  => 'color',
+			'css'   => array(
+				array(
+					'property' => 'color',
+					'selector' => '.salawat-latest-date',
+				),
+			),
+		);
+
+		$this->controls['messageTypography'] = array(
+			'tab'   => 'content',
 			'label' => esc_html__( 'Message typography', 'salawat-counter' ),
 			'type'  => 'typography',
 			'css'   => array(
@@ -225,8 +352,44 @@ class Salawat_Latest_Pledges_Element extends \Bricks\Element {
 			),
 		);
 
-		$this->controls['amountTypography'] = array(
+		$this->controls['messageColor'] = array(
 			'tab'   => 'style',
+			'label' => esc_html__( 'Message color', 'salawat-counter' ),
+			'type'  => 'color',
+			'css'   => array(
+				array(
+					'property' => 'color',
+					'selector' => '.salawat-latest-message',
+				),
+			),
+		);
+
+		$this->controls['labelTypography'] = array(
+			'tab'   => 'content',
+			'label' => esc_html__( 'Amount label typography', 'salawat-counter' ),
+			'type'  => 'typography',
+			'css'   => array(
+				array(
+					'property' => 'typography',
+					'selector' => '.salawat-latest-amount-label',
+				),
+			),
+		);
+
+		$this->controls['labelColor'] = array(
+			'tab'   => 'style',
+			'label' => esc_html__( 'Amount label color', 'salawat-counter' ),
+			'type'  => 'color',
+			'css'   => array(
+				array(
+					'property' => 'color',
+					'selector' => '.salawat-latest-amount-label',
+				),
+			),
+		);
+
+		$this->controls['amountTypography'] = array(
+			'tab'   => 'content',
 			'label' => esc_html__( 'Amount typography', 'salawat-counter' ),
 			'type'  => 'typography',
 			'css'   => array(
@@ -259,6 +422,20 @@ class Salawat_Latest_Pledges_Element extends \Bricks\Element {
 					'selector' => '.salawat-latest-message',
 				),
 			),
+		);
+	}
+
+	/**
+	 * Enqueue base styles in Bricks builder/frontend when supported.
+	 *
+	 * @return void
+	 */
+	public function enqueue_scripts() {
+		wp_enqueue_style(
+			'salawat-counter-frontend',
+			SALAWAT_COUNTER_URL . 'assets/frontend.css',
+			array(),
+			SALAWAT_COUNTER_VERSION
 		);
 	}
 

@@ -1,0 +1,85 @@
+.salawat-admin-wrap {
+	--salawat-admin-fs-sm: 14px;
+	--salawat-admin-fs-lg: 28px;
+	--salawat-admin-space-sm: 14px;
+	--salawat-admin-space-md: 20px;
+	--salawat-admin-border: #dcdcde;
+	--salawat-admin-muted: #50575e;
+	--salawat-admin-bg: #fff;
+}
+
+.salawat-admin-filters {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	gap: var(--salawat-admin-space-sm);
+	margin: 16px 0;
+}
+
+.salawat-admin-filters label {
+	display: grid;
+	gap: 4px;
+	font-size: var(--salawat-admin-fs-sm);
+}
+
+.salawat-admin-cards {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+	gap: var(--salawat-admin-space-sm);
+	margin: 18px 0 28px;
+}
+
+.salawat-admin-card {
+	background: var(--salawat-admin-bg);
+	border: 1px solid var(--salawat-admin-border);
+	border-radius: 6px;
+	padding: var(--salawat-admin-space-md);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.salawat-admin-card h2 {
+	color: var(--salawat-admin-muted);
+	font-size: var(--salawat-admin-fs-sm);
+	font-weight: 600;
+	margin: 0 0 8px;
+}
+
+.salawat-admin-card strong {
+	display: block;
+	font-size: var(--salawat-admin-fs-lg);
+	font-weight: 800;
+	line-height: 1.15;
+}
+
+#salawat-admin-chart {
+	background: var(--salawat-admin-bg);
+	border: 1px solid var(--salawat-admin-border);
+	border-radius: 6px;
+	box-sizing: border-box;
+	display: block;
+	max-width: 100%;
+	margin-bottom: 28px;
+}
+
+.salawat-admin-table {
+	table-layout: auto;
+}
+
+.salawat-admin-table th,
+.salawat-admin-table td {
+	vertical-align: top;
+}
+
+.salawat-admin-table .column-actions {
+	width: 110px;
+}
+
+.salawat-delete-link {
+	color: #b32d2e;
+	font-weight: 600;
+}
+
+.salawat-delete-link:hover,
+.salawat-delete-link:focus {
+	color: #8a2424;
+}

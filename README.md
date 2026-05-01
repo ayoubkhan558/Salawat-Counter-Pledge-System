@@ -77,9 +77,13 @@ Element controls include:
 - Show or hide title, date, message, and amount label
 - Custom title, date format, amount label, anonymous label, and empty text
 - Columns
-- Card gap, background, padding, border, and shadow
-- Typography for title, name, message, and amount
-- Amount color and message accent color
+- Title spacing, card gap, header spacing, footer gap, message spacing, and message padding
+- Card background, padding, radius, border, and shadow
+- Typography for title, name, date, message, amount label, and amount
+- Colors for name, date, message, amount label, amount, and message accent
+
+The element prints a small inline fallback stylesheet while rendering, so the card layout is visible inside the Bricks builder canvas as well as on the frontend.
+Typography controls are available in the element Content tab.
 
 ## Admin
 
@@ -90,6 +94,7 @@ Go to **Salawat Stats** in WordPress admin to view:
 - Participant count
 - Daily chart
 - Recent pledges
+- Delete individual pledges
 - Date range filter
 - CSV export
 
